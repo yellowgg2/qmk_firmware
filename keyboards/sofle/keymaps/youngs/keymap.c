@@ -334,6 +334,7 @@ bool oled_task_user(void) {
         print_status_narrow();
     } else {
         render_logo();
+        oled_scroll_left();
     }
     return false;
 }
