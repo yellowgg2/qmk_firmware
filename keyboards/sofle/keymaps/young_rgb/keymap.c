@@ -19,19 +19,19 @@
 
 #include QMK_KEYBOARD_H
 
-#define INDICATOR_BRIGHTNESS 30
+#define INDICATOR_BRIGHTNESS 20
 
 #define HSV_OVERRIDE_HELP(h, s, v, Override) h, s, Override
 #define HSV_OVERRIDE(hsv, Override) HSV_OVERRIDE_HELP(hsv, Override)
 
 // Light combinations
-#define SET_INDICATORS(hsv)                                 \
-    {0, 1, HSV_OVERRIDE_HELP(hsv, INDICATOR_BRIGHTNESS)}, { \
-        35 + 0, 1, hsv                                      \
+#define SET_INDICATORS(hsv)                                     \
+    {0, 1, HSV_OVERRIDE_HELP(hsv, INDICATOR_BRIGHTNESS)}, {     \
+        36 + 0, 1, HSV_OVERRIDE_HELP(hsv, INDICATOR_BRIGHTNESS) \
     }
 #define SET_UNDERGLOW(hsv) \
     {1, 6, hsv}, {         \
-        35 + 1, 6, hsv     \
+        36 + 1, 6, hsv     \
     }
 #define SET_NUMPAD(hsv)                     \
     {35 + 15, 5, hsv}, {35 + 22, 3, hsv}, { \
@@ -185,59 +185,69 @@ char layer_state_str[70];
 // Light on inner column and underglow
 const rgblight_segment_t PROGMEM layer_qwerty_lights[] = RGBLIGHT_LAYER_SEGMENTS(
     //   SET_LAYER_ID(HSV_RED)
-
-    {0, 1, HSV_RED},                                // Indicator
-    {1, 6, HSV_RED},                                // Underglow
-    {7, 1, HSV_MAGENTA},                            // WIN
-    {8, 4, HSV_RED},                                // LEFT most Column
-    {16, 2, HSV_SPRINGGREEN},                       // ALT, CTRL
-    {26, 1, HSV_RED},                               // LAYER
-    {27, 1, HSV_SPRINGGREEN}, {36 + 0, 1, HSV_RED}, // Indicator
-    {36 + 1, 6, HSV_RED},                           // Underglow
-    {36 + 7, 1, HSV_MAGENTA},                       // WIN
-    {36 + 8, 4, HSV_RED},                           // LEFT most Column
-    {36 + 16, 2, HSV_SPRINGGREEN},                  // ALT, CTRL
-    {36 + 26, 1, HSV_RED},                          // LAYER
-    {36 + 27, 1, HSV_SPRINGGREEN});                 // ENTER or space
+    SET_INDICATORS(HSV_RED),                            // indicator
+    SET_UNDERGLOW(HSV_RED),                             // underglow
+    {7, 1, HSV_MAGENTA},                                // WIN
+    {8, 4, HSV_RED},                                    // LEFT most Column
+    {16, 2, HSV_SPRINGGREEN},                           // ALT, CTRL
+    {26, 1, HSV_RED},                                   // LAYER
+    {27, 1, HSV_SPRINGGREEN}, {36 + 7, 1, HSV_MAGENTA}, // WIN
+    {36 + 8, 4, HSV_RED},                               // LEFT most Column
+    {36 + 16, 2, HSV_SPRINGGREEN},                      // ALT, CTRL
+    {36 + 26, 1, HSV_RED},                              // LAYER
+    {36 + 27, 1, HSV_SPRINGGREEN});                     // ENTER or space
 
 // _NUM,
 // Light on outer column and underglow
 const rgblight_segment_t PROGMEM layer_lower_lights[] = RGBLIGHT_LAYER_SEGMENTS(
     // SET_LAYER_ID(HSV_TEAL)
-    {0, 1, HSV_YELLOW},                                // Indicator
-    {1, 6, HSV_YELLOW},                                // Underglow
-    {7, 1, HSV_MAGENTA},                               // WIN
-    {8, 4, HSV_YELLOW},                                // LEFT most Column
-    {16, 2, HSV_SPRINGGREEN},                          // ALT, CTRL
-    {26, 1, HSV_YELLOW},                               // LAYER
-    {27, 1, HSV_SPRINGGREEN}, {36 + 0, 1, HSV_YELLOW}, // Indicator
-    {36 + 1, 6, HSV_YELLOW},                           // Underglow
-    {36 + 7, 1, HSV_MAGENTA},                          // WIN
-    {36 + 8, 4, HSV_YELLOW},                           // LEFT most Column
-    {36 + 16, 2, HSV_SPRINGGREEN},                     // ALT, CTRL
-    {36 + 26, 1, HSV_YELLOW},                          // LAYER
-    {36 + 27, 1, HSV_SPRINGGREEN});                    // ENTER or space
+    SET_INDICATORS(HSV_YELLOW),     // indicator
+    SET_UNDERGLOW(HSV_YELLOW),      // underglow
+    {7, 1, HSV_MAGENTA},            // WIN
+    {8, 4, HSV_YELLOW},             // LEFT most Column
+    {16, 2, HSV_SPRINGGREEN},       // ALT, CTRL
+    {26, 1, HSV_YELLOW},            // LAYER
+    {27, 1, HSV_SPRINGGREEN},       // Indicator
+    {36 + 7, 1, HSV_MAGENTA},       // WIN
+    {36 + 8, 4, HSV_YELLOW},        // LEFT most Column
+    {36 + 16, 2, HSV_SPRINGGREEN},  // ALT, CTRL
+    {36 + 26, 1, HSV_YELLOW},       // LAYER
+    {36 + 27, 1, HSV_SPRINGGREEN}); // ENTER or space
 // _SYMBOL,
 // Light on inner column and underglow
 const rgblight_segment_t PROGMEM layer_raise_lights[] = RGBLIGHT_LAYER_SEGMENTS(
     // SET_LAYER_ID(HSV_BLUE)
-    {0, 1, HSV_CYAN},                                // Indicator
-    {1, 6, HSV_CYAN},                                // Underglow
-    {7, 1, HSV_MAGENTA},                             // WIN
-    {8, 4, HSV_CYAN},                                // LEFT most Column
-    {16, 2, HSV_SPRINGGREEN},                        // ALT, CTRL
-    {26, 1, HSV_CYAN},                               // LAYER
-    {27, 1, HSV_SPRINGGREEN}, {36 + 0, 1, HSV_CYAN}, // Indicator
-    {36 + 1, 6, HSV_CYAN},                           // Underglow
-    {36 + 7, 1, HSV_MAGENTA},                        // WIN
-    {36 + 8, 4, HSV_CYAN},                           // LEFT most Column
-    {36 + 16, 2, HSV_SPRINGGREEN},                   // ALT, CTRL
-    {36 + 26, 1, HSV_CYAN},                          // LAYER
-    {36 + 27, 1, HSV_SPRINGGREEN});                  // ENTER or space
+    SET_INDICATORS(HSV_CYAN),       // indicator
+    SET_UNDERGLOW(HSV_CYAN),        // underglow
+    {7, 1, HSV_MAGENTA},            // WIN
+    {8, 4, HSV_CYAN},               // LEFT most Column
+    {16, 2, HSV_SPRINGGREEN},       // ALT, CTRL
+    {26, 1, HSV_CYAN},              // LAYER
+    {27, 1, HSV_SPRINGGREEN},       // Indicator
+    {36 + 7, 1, HSV_MAGENTA},       // WIN
+    {36 + 8, 4, HSV_CYAN},          // LEFT most Column
+    {36 + 16, 2, HSV_SPRINGGREEN},  // ALT, CTRL
+    {36 + 26, 1, HSV_CYAN},         // LAYER
+    {36 + 27, 1, HSV_SPRINGGREEN}); // ENTER or space
+
+const rgblight_segment_t PROGMEM layer_adj_lights[] = RGBLIGHT_LAYER_SEGMENTS(
+    // SET_LAYER_ID(HSV_BLUE)
+    SET_INDICATORS(HSV_TURQUOISE),  // indicator
+    SET_UNDERGLOW(HSV_TURQUOISE),   // underglow
+    {7, 1, HSV_MAGENTA},            // WIN
+    {8, 4, HSV_TURQUOISE},          // LEFT most Column
+    {16, 2, HSV_SPRINGGREEN},       // ALT, CTRL
+    {26, 1, HSV_TURQUOISE},         // LAYER
+    {27, 1, HSV_SPRINGGREEN},       // Indicator
+    {36 + 7, 1, HSV_MAGENTA},       // WIN
+    {36 + 8, 4, HSV_TURQUOISE},     // LEFT most Column
+    {36 + 16, 2, HSV_SPRINGGREEN},  // ALT, CTRL
+    {36 + 26, 1, HSV_TURQUOISE},    // LAYER
+    {36 + 27, 1, HSV_SPRINGGREEN}); // ENTER or space
 
 const rgblight_segment_t *const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(layer_qwerty_lights,
                                                                                layer_lower_lights, // overrides layer 1
-                                                                               layer_raise_lights);
+                                                                               layer_raise_lights, layer_adj_lights);
 
 layer_state_t layer_state_set_user(layer_state_t state) {
     rgblight_set_layer_state(0, layer_state_cmp(state, _DEFAULTS) && layer_state_cmp(default_layer_state, _QWERTY));
