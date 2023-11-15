@@ -185,17 +185,18 @@ char layer_state_str[70];
 // Light on inner column and underglow
 const rgblight_segment_t PROGMEM layer_qwerty_lights[] = RGBLIGHT_LAYER_SEGMENTS(
     //   SET_LAYER_ID(HSV_RED)
-    SET_INDICATORS(HSV_RED),                            // indicator
-    SET_UNDERGLOW(HSV_RED),                             // underglow
-    {7, 1, HSV_MAGENTA},                                // WIN
-    {8, 4, HSV_RED},                                    // LEFT most Column
-    {16, 2, HSV_SPRINGGREEN},                           // ALT, CTRL
-    {26, 1, HSV_RED},                                   // LAYER
-    {27, 1, HSV_SPRINGGREEN}, {36 + 7, 1, HSV_MAGENTA}, // WIN
-    {36 + 8, 4, HSV_RED},                               // LEFT most Column
-    {36 + 16, 2, HSV_SPRINGGREEN},                      // ALT, CTRL
-    {36 + 26, 1, HSV_RED},                              // LAYER
-    {36 + 27, 1, HSV_SPRINGGREEN});                     // ENTER or space
+    SET_INDICATORS(HSV_RED),        // indicator
+    SET_UNDERGLOW(HSV_RED),         // underglow
+    {7, 1, HSV_MAGENTA},            // WIN
+    {8, 4, HSV_RED},                // LEFT most Column
+    {16, 2, HSV_SPRINGGREEN},       // ALT, CTRL
+    {26, 1, HSV_RED},               // LAYER
+    {27, 1, HSV_SPRINGGREEN},       // indicator
+    {36 + 7, 1, HSV_MAGENTA},       // WIN
+    {36 + 8, 4, HSV_RED},           // LEFT most Column
+    {36 + 16, 2, HSV_SPRINGGREEN},  // ALT, CTRL
+    {36 + 26, 1, HSV_RED},          // LAYER
+    {36 + 27, 1, HSV_SPRINGGREEN}); // ENTER or space
 
 // _NUM,
 // Light on outer column and underglow
@@ -232,17 +233,17 @@ const rgblight_segment_t PROGMEM layer_raise_lights[] = RGBLIGHT_LAYER_SEGMENTS(
 
 const rgblight_segment_t PROGMEM layer_adj_lights[] = RGBLIGHT_LAYER_SEGMENTS(
     // SET_LAYER_ID(HSV_BLUE)
-    SET_INDICATORS(HSV_TURQUOISE),  // indicator
-    SET_UNDERGLOW(HSV_TURQUOISE),   // underglow
+    SET_INDICATORS(HSV_PINK),       // indicator
+    SET_UNDERGLOW(HSV_PINK),        // underglow
     {7, 1, HSV_MAGENTA},            // WIN
-    {8, 4, HSV_TURQUOISE},          // LEFT most Column
+    {8, 4, HSV_PINK},               // LEFT most Column
     {16, 2, HSV_SPRINGGREEN},       // ALT, CTRL
-    {26, 1, HSV_TURQUOISE},         // LAYER
+    {26, 1, HSV_PINK},              // LAYER
     {27, 1, HSV_SPRINGGREEN},       // Indicator
     {36 + 7, 1, HSV_MAGENTA},       // WIN
-    {36 + 8, 4, HSV_TURQUOISE},     // LEFT most Column
+    {36 + 8, 4, HSV_PINK},          // LEFT most Column
     {36 + 16, 2, HSV_SPRINGGREEN},  // ALT, CTRL
-    {36 + 26, 1, HSV_TURQUOISE},    // LAYER
+    {36 + 26, 1, HSV_PINK},         // LAYER
     {36 + 27, 1, HSV_SPRINGGREEN}); // ENTER or space
 
 const rgblight_segment_t *const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(layer_qwerty_lights,
@@ -254,7 +255,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     rgblight_set_layer_state(1, layer_state_cmp(state, _LOWER));
     rgblight_set_layer_state(2, layer_state_cmp(state, _RAISE));
     rgblight_set_layer_state(3, layer_state_cmp(state, _ADJUST));
-    return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
+    return state;
 }
 
 // layer_state_t layer_state_set_user(layer_state_t state) {
@@ -642,9 +643,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 bool encoder_update_user(uint8_t index, bool clockwise) {
     if (index == 1) { // Index 1 is the second encoder
         if (clockwise) {
-            tap_code(KC_PGDN); // Page Down is sent if the 2nd encoder is rotated clockwise
+            tap_code(KC_WH_D); // Page Down is sent if the 2nd encoder is rotated clockwise
         } else {
-            tap_code(KC_PGUP); // Page Up is sent if the 2nd encoder is rotated counter-clockwise
+            tap_code(KC_WH_U); // Page Up is sent if the 2nd encoder is rotated counter-clockwise
         }
         return false;
     }
