@@ -61,7 +61,7 @@
 
 enum sofle_layers { _DEFAULTS = 0, _QWERTY = 0, _LOWER, _RAISE, _ADJUST };
 
-enum custom_keycodes { KC_QWERTY = SAFE_RANGE, KC_D_MUTE, KC_PRVWD, KC_NXTWD, KC_LSTRT, KC_LEND, KC_DLINE };
+enum custom_keycodes { KC_QWERTY = SAFE_RANGE, KC_D_MUTE, KC_PRVWD, KC_NXTWD, KC_LSTRT, KC_LEND, KC_DLINE, KC_LOWER, KC_RAISE, KC_ADJUST };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /*
@@ -90,7 +90,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         //|------+-------+--------+--------+--------+------|  ===  |   |  ===  |--------+-------+--------+--------+--------+---------|
         KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_MUTE, KC_D_MUTE, KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, KC_LSFT,
         //|------+-------+--------+--------+--------+------|  ===  |   |  ===  |--------+-------+--------+--------+--------+---------|
-        KC_LGUI, KC_LALT, KC_LCTL, MO(_LOWER), KC_ENT, KC_SPC, MO(_RAISE), KC_RCTL, KC_RALT, KC_RGUI
+        KC_LGUI, KC_LALT, KC_LCTL, KC_LOWER, KC_ENT, KC_SPC, KC_RAISE, KC_RCTL, KC_RALT, KC_RGUI
         //            \--------+--------+--------+---------+-------|   |--------+---------+--------+---------+-------/
         ),
 
@@ -606,6 +606,31 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 unregister_code(KC_BSPC);
             }
             break;
+        case KC_LOWER:
+            if (record->event.pressed) {
+                layer_on(_LOWER);
+                update_tri_layer(_LOWER, _RAISE, _ADJUST);
+            } else {
+                layer_off(_LOWER);
+                update_tri_layer(_LOWER, _RAISE, _ADJUST);
+            }
+            return false;
+        case KC_RAISE:
+            if (record->event.pressed) {
+                layer_on(_RAISE);
+                update_tri_layer(_LOWER, _RAISE, _ADJUST);
+            } else {
+                layer_off(_RAISE);
+                update_tri_layer(_LOWER, _RAISE, _ADJUST);
+            }
+            return false;
+        case KC_ADJUST:
+            if (record->event.pressed) {
+                layer_on(_ADJUST);
+            } else {
+                layer_off(_ADJUST);
+            }
+            return false;
         case KC_D_MUTE:
             if (record->event.pressed) {
                 register_mods(mod_config(MOD_MEH));
@@ -614,7 +639,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 unregister_mods(mod_config(MOD_MEH));
                 unregister_code(KC_UP);
             }
-            break;
+            return false;
             /* KEYBOARD PET STATUS START */
 
         case KC_LCTL:
