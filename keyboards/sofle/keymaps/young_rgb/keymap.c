@@ -665,20 +665,67 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 #ifdef ENCODER_ENABLE
+bool bTwiceEnc1 = false;
+bool bTwiceEnc0 = false;
 bool encoder_update_user(uint8_t index, bool clockwise) {
     if (index == 1) { // Index 1 is the second encoder
-        if (clockwise) {
-            tap_code(KC_WH_D); // Page Down is sent if the 2nd encoder is rotated clockwise
-        } else {
-            tap_code(KC_WH_U); // Page Up is sent if the 2nd encoder is rotated counter-clockwise
+        switch (get_highest_layer(layer_state)) {
+            case _QWERTY:
+                if (clockwise) {
+                    tap_code(KC_WH_D);
+                } else {
+                    tap_code(KC_WH_U);
+                }
+                break;
+            case _RAISE:
+            case _LOWER:
+                // move browser tab forward and backward
+                if (bTwiceEnc1) {
+                    if (clockwise) {
+                        tap_code16(C(KC_TAB));
+                    } else {
+                        tap_code16(C(S(KC_TAB)));
+                    }
+                }
+                bTwiceEnc1 = !bTwiceEnc1;
+                break;
+            default:
+                if (clockwise) {
+                    tap_code(KC_WH_D);
+                } else {
+                    tap_code(KC_WH_U);
+                }
+                break;
         }
         return false;
     }
     if (index == 0) { // Index 0 is the first encoder
-        if (clockwise) {
-            tap_code(KC_VOLU); // Volume Up is sent if the 1st encoder is rotated clockwise
-        } else {
-            tap_code(KC_VOLD); // Volume Down is sent if the 1st encoder is rotated counter-clockwise
+        switch (get_highest_layer(layer_state)) {
+            case _QWERTY:
+                if (clockwise) {
+                    tap_code(KC_VOLU); // Volume Up is sent if the 1st encoder is rotated clockwise
+                } else {
+                    tap_code(KC_VOLD); // Volume Down is sent if the 1st encoder is rotated counter-clockwise
+                }
+                break;
+            case _RAISE:
+            case _LOWER:
+                if (bTwiceEnc0) {
+                    if (clockwise) {
+                        tap_code16(C(G(KC_RIGHT)));
+                    } else {
+                        tap_code16(C(G(KC_LEFT)));
+                    }
+                }
+                bTwiceEnc0 = !bTwiceEnc0;
+                break;
+            default:
+                if (clockwise) {
+                    tap_code(KC_WH_D);
+                } else {
+                    tap_code(KC_WH_U);
+                }
+                break;
         }
     }
     return false;
