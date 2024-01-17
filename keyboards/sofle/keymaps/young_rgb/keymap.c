@@ -597,6 +597,43 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 }
             }
             break;
+        case KC_COPY:
+            if (record->event.pressed) {
+                register_mods(mod_config(MOD_LCTL));
+                register_code(KC_C);
+            } else {
+                unregister_mods(mod_config(MOD_LCTL));
+                unregister_code(KC_C);
+            }
+            return false;
+        case KC_PASTE:
+            if (record->event.pressed) {
+                register_mods(mod_config(MOD_LCTL));
+                register_code(KC_V);
+            } else {
+                unregister_mods(mod_config(MOD_LCTL));
+                unregister_code(KC_V);
+            }
+            return false;
+        case KC_CUT:
+            if (record->event.pressed) {
+                register_mods(mod_config(MOD_LCTL));
+                register_code(KC_X);
+            } else {
+                unregister_mods(mod_config(MOD_LCTL));
+                unregister_code(KC_X);
+            }
+            return false;
+            break;
+        case KC_UNDO:
+            if (record->event.pressed) {
+                register_mods(mod_config(MOD_LCTL));
+                register_code(KC_Z);
+            } else {
+                unregister_mods(mod_config(MOD_LCTL));
+                unregister_code(KC_Z);
+            }
+            return false;
         case KC_DLINE:
             if (record->event.pressed) {
                 register_mods(mod_config(MOD_LCTL));
