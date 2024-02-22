@@ -29,9 +29,9 @@
     {0, 1, HSV_OVERRIDE_HELP(hsv, INDICATOR_BRIGHTNESS)}, {     \
         36 + 0, 1, HSV_OVERRIDE_HELP(hsv, INDICATOR_BRIGHTNESS) \
     }
-#define SET_UNDERGLOW(hsv) \
-    {1, 6, hsv}, {         \
-        36 + 1, 6, hsv     \
+#define SET_UNDERGLOW(hsv)                     \
+    {1, 6, HSV_OVERRIDE_HELP(hsv, 200)}, {     \
+        36 + 1, 6, HSV_OVERRIDE_HELP(hsv, 200) \
     }
 #define SET_NUMPAD(hsv)                     \
     {35 + 15, 5, hsv}, {35 + 22, 3, hsv}, { \
@@ -709,28 +709,9 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
         switch (get_highest_layer(layer_state)) {
             case _QWERTY:
                 if (clockwise) {
-                    tap_code(KC_WH_D);
+                    tap_code(KC_BRID);
                 } else {
-                    tap_code(KC_WH_U);
-                }
-                break;
-            case _RAISE:
-            case _LOWER:
-                // move browser tab forward and backward
-                if (bTwiceEnc1) {
-                    if (clockwise) {
-                        tap_code16(C(KC_TAB));
-                    } else {
-                        tap_code16(C(S(KC_TAB)));
-                    }
-                }
-                bTwiceEnc1 = !bTwiceEnc1;
-                break;
-            default:
-                if (clockwise) {
-                    tap_code(KC_WH_D);
-                } else {
-                    tap_code(KC_WH_U);
+                    tap_code(KC_BRIU);
                 }
                 break;
         }
@@ -743,24 +724,6 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
                     tap_code(KC_VOLU); // Volume Up is sent if the 1st encoder is rotated clockwise
                 } else {
                     tap_code(KC_VOLD); // Volume Down is sent if the 1st encoder is rotated counter-clockwise
-                }
-                break;
-            case _RAISE:
-            case _LOWER:
-                if (bTwiceEnc0) {
-                    if (clockwise) {
-                        tap_code16(C(G(KC_RIGHT)));
-                    } else {
-                        tap_code16(C(G(KC_LEFT)));
-                    }
-                }
-                bTwiceEnc0 = !bTwiceEnc0;
-                break;
-            default:
-                if (clockwise) {
-                    tap_code(KC_WH_D);
-                } else {
-                    tap_code(KC_WH_U);
                 }
                 break;
         }
